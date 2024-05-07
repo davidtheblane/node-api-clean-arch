@@ -5,7 +5,8 @@
 - git remote rename origin o
 
 **iniciar projeto node**
-- npm init -y
+- install
+  - npm init -y
 
 **Biblioteca lint-stage e Husky**
 permite rodar scripts na staged area
@@ -20,3 +21,7 @@ https://valchan.com.br/lint-staged-husky/
   - npm init jest@latest
   - add in package.json 
     - "scripts": {"test": "jest"}
+
+**Framework backend node express**
+- install
+  - npm install express

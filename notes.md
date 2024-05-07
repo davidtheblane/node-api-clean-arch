@@ -29,3 +29,8 @@ https://valchan.com.br/lint-staged-husky/
 **ORM para MongoDB, mongoose**
 - install
   - npm install mongoose --save
+
+
+**Clean Architecture**
+- Principios
+  - Isolar as camadas de caso de uso, consulta a banco de dados, rotas e dependencias.  

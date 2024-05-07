@@ -22,6 +22,10 @@ https://valchan.com.br/lint-staged-husky/
   - add in package.json 
     - "scripts": {"test": "jest"}
 
-**Framework backend node express**
+**Framework backend  para Node, express**
 - install
   - npm install express
+
+**ORM para MongoDB, mongoose**
+- install
+  - npm install mongoose --save

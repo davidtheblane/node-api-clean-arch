@@ -1,19 +1,40 @@
+const express = require("express");
+
 module.exports = () => {
-  router.post("/signup", new SignupRouter().route);
+  const router = new SignupRouter();
+  router.post("/signup", ExpressRouterAdapter.adapt(router));
 };
 
-// sign-router
-const express = require("express");
-const router = express.Router();
-
-class SignupRouter {
-  async route(req, res) {
-    const { email, password, repeatPassword } = req.body;
-    new SignupUseCase().signUp({ email, password, repeatPassword });
-    res.status(400).send({ error: "password must be equal" });
+class ExpressRouterAdapter {
+  static adapt(router) {
+    return async (req, res) => {
+      const httpRequest = {
+        body: req.body,
+      };
+      const httpResponse = await router.rout(httpRequest);
+      res.status(httpResponse.statusCode).send(httpResponse.body);
+    };
   }
 }
 
+// Presentation Layer
+// signup-router
+class SignupRouter {
+  async route(httpRequest) {
+    const { email, password, repeatPassword } = httpRequest.body;
+    const user = new SignupUseCase().signUp({
+      email,
+      password,
+      repeatPassword,
+    });
+    return {
+      statusCode: 200,
+      body: user,
+    };
+  }
+}
+
+// Domain Layer
 // signup-usecase
 class SignupUseCase {
   async signUp({ email, password, repeatPassword }) {
@@ -23,6 +44,7 @@ class SignupUseCase {
   }
 }
 
+// Infra Layer
 // account-repo
 const mongoose = require("mongoose");
 const AccountModel = mongoose.model("Account");

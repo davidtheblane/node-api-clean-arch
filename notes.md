@@ -22,6 +22,17 @@ https://valchan.com.br/lint-staged-husky/
   - add in package.json 
     - "scripts": {"test": "jest"}
 
+- test options
+  - watchAll - roda testes a cada alteração feita.
+  - --passWithNoTests - se o jest não encontrar testes ele retorna sucesso.
+  - watch -o - roda testes apenas da parte alterada no codigo.
+  - --findRelatedTests - parecido com o watch, só roda os testes alterados.
+  - --silent - não mostra o check list de testes nem os consoles, apenas o retorno do teste que não passou.
+  - --verbose - mostra o check list dos testes mas não mostra os consoles.
+  - --colors - usa cores pra destacar os testes no console.
+  - --noStackTrace - mostra apenas os testes que não passaram.
+  - --coverage - mostra relatorio dos testes com porcentagem de cobertura
+
 **Framework backend  para Node, express**
 - install
   - npm install express

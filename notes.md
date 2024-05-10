@@ -32,6 +32,12 @@ https://valchan.com.br/lint-staged-husky/
   - --colors - usa cores pra destacar os testes no console.
   - --noStackTrace - mostra apenas os testes que não passaram.
   - --coverage - mostra relatorio dos testes com porcentagem de cobertura
+  - (--) usar 2 traços entre as opcoes permite chamar outro script. 
+          Exemplo: em test:unit chamamos o script anterior e adicionamos apenas o watchAll
+          script: {
+            "test": "jest --silent --colors",
+            "test:unit": "npm test -- --watchAll"
+          }  
 
 **Framework backend  para Node, express**
 - install

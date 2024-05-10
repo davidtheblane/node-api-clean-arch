@@ -39,6 +39,10 @@ https://valchan.com.br/lint-staged-husky/
             "test": "jest --silent --colors",
             "test:unit": "npm test -- --watchAll"
           }  
+          
+**Validator - Biblioteca para validação de dados**
+- install 
+  - npm install validator
 
 **Framework backend  para Node, express**
 - install

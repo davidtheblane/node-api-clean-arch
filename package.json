@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --silent --colors --noStackTrace --passWithNoTests",
+    "test": "jest --watch --verbose --silent --colors --noStackTrace --passWithNoTests",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js"
   },
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "mongoose": "^8.3.4"
+    "mongoose": "^8.3.4",
+    "validator": "^13.12.0"
   }
 }

@@ -32,6 +32,7 @@ https://valchan.com.br/lint-staged-husky/
   - --colors - usa cores pra destacar os testes no console.
   - --noStackTrace - mostra apenas os testes que não passaram.
   - --coverage - mostra relatorio dos testes com porcentagem de cobertura
+  -  -c - permite passar um patch de um arquivo de configuracao de testes
   - (--) usar 2 traços entre as opcoes permite chamar outro script. 
           Exemplo: em test:unit chamamos o script anterior e adicionamos apenas o watchAll
           script: {

@@ -44,6 +44,10 @@ https://valchan.com.br/lint-staged-husky/
 - install 
   - npm install validator
 
+**Bcrypt - Biblioteca para criptografia de dados**
+- install
+  - npm i bcrypt  
+
 **Framework backend  para Node, express**
 - install
   - npm install express
@@ -51,7 +55,6 @@ https://valchan.com.br/lint-staged-husky/
 **ORM para MongoDB, mongoose**
 - install
   - npm install mongoose --save
-
 
 **Clean Architecture**
 - Principios

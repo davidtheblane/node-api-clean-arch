@@ -46,7 +46,11 @@ https://valchan.com.br/lint-staged-husky/
 
 **Bcrypt - Biblioteca para criptografia de dados**
 - install
-  - npm i bcrypt  
+  - npm i bcrypt
+
+**jsonwebtoken - Biblioteca para geração de token JWT**
+- install
+  - npm i jsonwebtoken  
 
 **Framework backend  para Node, express**
 - install

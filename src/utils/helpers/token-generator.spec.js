@@ -6,7 +6,7 @@ class TokenGenerator {
 
 describe('Token Generator', () => {
 
-  test('Should return null if jwt returns null ', async() => {
+  test('Should return nu-ll if jwt returns null ', async() => {
     const sut = new TokenGenerator()
     const token = await sut.generate('any_id')
     expect(token).toBeNull()

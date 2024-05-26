@@ -13,7 +13,7 @@ module.exports = class LoginRouter {
     try {
 
       const {email, password} = httpRequest.body;
-      console.log({email, password})
+      // console.log({email, password})
 
       if(!email){
         return HttpResponse.badRequest(new MissingParamError('email'));

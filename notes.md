@@ -60,6 +60,17 @@ https://valchan.com.br/lint-staged-husky/
 - install
   - npm install mongoose --save
 
+** Biblioteca para testes no mongodb usando Jest**
+- install
+  - npm install --save-dev @shelf/jest-mongodb 
+- diferencas das versoes mostradas em aula
+ - não é necessario mais usar useNewUrlParser e useUnifiedTopology, a partir da versao 4 do mongo. 
+ - não é mais necessário criar um arquivo 'jest-mongodb-config.js',
+ - em jest.config adicionar a linha abaixo para evitar loop infinito nos testes.
+   - watchPathIgnorePatterns: ['globalConfig', 'node_modules'],
+
 **Clean Architecture**
 - Principios
   - Isolar as camadas de caso de uso, consulta a banco de dados, rotas e dependencias.  
+
+

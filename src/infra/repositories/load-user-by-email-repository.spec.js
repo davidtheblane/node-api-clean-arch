@@ -1,15 +1,12 @@
-const { MongoClient } = require('mongodb')
+const MongoHelper = require('../helpers/mongo-helpers')
 const LoadUserByEmailRepository = require('./load-user-by-email-repository')
 
-let client;
 let db;
 
 describe("LoadUserByEmail Repository", () => {
-
-
   beforeAll(async () => {
-    client = await MongoClient.connect(process.env.MONGO_URL, {})  
-    db = client.db()
+   db = await MongoHelper.connect(process.env.MONGO_URL)  
+    // db = MongoHelper.db()
   });
 
   beforeEach(async () => {
@@ -17,7 +14,7 @@ describe("LoadUserByEmail Repository", () => {
   });
 
   afterAll(async () => {
-    await client.close();
+    await MongoHelper.disconnect();
   });
 
   const makeSut = () => {

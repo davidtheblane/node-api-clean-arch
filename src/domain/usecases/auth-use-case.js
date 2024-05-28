@@ -25,5 +25,3 @@ module.exports = class AuthUseCase {
     return null
   }
 }
-
-// PAREI EM 29min

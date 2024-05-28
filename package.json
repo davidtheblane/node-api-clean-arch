@@ -2,11 +2,14 @@
   "name": "api-clean-arch",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/main/index.js",
   "scripts": {
-    "test": "jest --watch --verbose --colors --noStackTrace --passWithNoTests",
+    "start": "node src/main/index.js",
+    "test": "jest --watchAll --verbose --colors --noStackTrace --passWithNoTests",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
+    "test:staged": "npm test -- --findRelatedTests --silent",
+    "test:ci": "npm test -- --coverage --silent",
     "test:seeAll": "jest --watchAll"
   },
   "keywords": [],

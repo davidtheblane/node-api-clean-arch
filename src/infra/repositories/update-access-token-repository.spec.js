@@ -14,6 +14,8 @@ const makeSut = () => {
 }
 
 describe('UpdateAccessToken Repository', () => {
+  let fakeUserId;
+
   beforeAll(async () => {
     db = await MongoHelper.connect(process.env.MONGO_URL)  
      // db = MongoHelper.db()
@@ -21,6 +23,17 @@ describe('UpdateAccessToken Repository', () => {
  
    beforeEach(async () => {
      await db.collection('users').deleteMany();
+     
+     const userModel = db.collection('users')
+     const fakeUser = await userModel.insertOne({
+      email: 'valid_email@mail.com',
+      name: 'any_name',
+      age: 35,
+      state: 'any_state',
+      password: 'hashed_password'
+    })
+
+    fakeUserId = fakeUser.insertedId
    });
  
    afterAll(async () => {
@@ -29,16 +42,9 @@ describe('UpdateAccessToken Repository', () => {
    
   test('Should update the user with the given access token', async()=> {
     const {sut, userModel} = makeSut();
-    const fakeUser = await userModel.insertOne({
-      email: 'valid_email@mail.com',
-      name: 'any_name',
-      age: 35,
-      state: 'any_state',
-      password: 'hashed_password'
-    })
-    await sut.update(fakeUser.insertedId, 'valid_token')
+    await sut.update(fakeUserId, 'valid_token')
     const updatedFakeUser = await userModel.findOne({
-      _id: fakeUser.insertedId
+      _id: fakeUserId
     })
     expect(updatedFakeUser.accessToken).toBe('valid_token')
   })
@@ -50,16 +56,9 @@ describe('UpdateAccessToken Repository', () => {
   })
 
   test("Should throw if no params are provided", async () => {
-    const {sut, userModel} = makeSut()
-    const fakeUser = await userModel.insertOne({
-      email: 'valid_email@mail.com',
-      name: 'any_name',
-      age: 35,
-      state: 'any_state',
-      password: 'hashed_password'
-    })
+    const {sut } = makeSut()
     await expect(sut.update()).rejects.toThrow(new MissingParamError('userId'))
-    await expect(sut.update(fakeUser.insertedId)).rejects.toThrow(new MissingParamError('accessToken'))
+    await expect(sut.update(fakeUserId)).rejects.toThrow(new MissingParamError('accessToken'))
 
   })
 })

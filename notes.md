@@ -73,4 +73,8 @@ https://valchan.com.br/lint-staged-husky/
 - Principios
   - Isolar as camadas de caso de uso, consulta a banco de dados, rotas e dependencias.  
 
+**SuperTest - biblioteca que auxilia rquests nos testes**
+- install
+  - npm i supertest -D  
+
 

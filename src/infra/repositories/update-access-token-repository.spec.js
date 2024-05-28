@@ -46,4 +46,10 @@ describe('UpdateAccessToken Repository', () => {
     })
     expect(updatedFakeUser.accessToken).toBe('valid_token')
   })
+
+  test("Should throw if no userModel is provided", async () => {
+    const sut = new UpdateAccessTokenRepository()
+    const promise = sut.update('valid_userId', 'valid_token')
+    await expect(promise).rejects.toThrow()
+  })
 })

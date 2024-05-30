@@ -145,22 +145,6 @@ describe("LoginRouter", () => {
     expect(httpResponse.body.accessToken).toEqual(authUseCaseSpy.accessToken);
   });
 
-  test("Should return 500 if authUseCase throws", async () => {
-    
-    const authUseCaseSpy = makeAuthUseCaseWithError();
-    const sut = new LoginRouter(authUseCaseSpy);
-    const httpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password',
-      }
-    }
-    const httpResponse = await sut.route(httpRequest);
-    expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new ServerError());
-
-  });
-
   test("Should return 400 if invalid email is provided", async () => {
     const {sut, emailValidatorSpy} = makeSut();
     emailValidatorSpy.isEmailValid = false;
@@ -174,21 +158,6 @@ describe("LoginRouter", () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError('email'));
   });
-
-test("Should return 500 if emailValidator throws", async () => {
-  const authUseCaseSpy = makeAuthUseCase();
-  const emailValidatorSpy = makeEmailValidatorWithError();
-  const sut = new LoginRouter(authUseCaseSpy, emailValidatorSpy);
-  const httpRequest = {
-    body: {
-      email: 'any_email@mail.com',
-      password: 'any_password',
-    }
-  }
-  const httpResponse = await sut.route(httpRequest);
-  expect(httpResponse.statusCode).toBe(500);
-  expect(httpResponse.body).toEqual(new ServerError());
-});
 
 test("Should call emailValidator with correct email", async () => {
   const {sut, emailValidatorSpy} = makeSut();
@@ -233,7 +202,30 @@ test('Should throw if invalid dependecies are provided', async () => {
 })
 
 
+test('Should throw if dependecy throws', async () => {
+  const authUseCase = makeAuthUseCase()
+  const suts = [].concat(
+  new LoginRouter({
+    authUseCase: makeAuthUseCaseWithError(),
+  }),
+  new LoginRouter({
+    authUseCase,
+    emailValidator: makeEmailValidatorWithError()
+  }),
+);
 
+    for(const sut of suts){
+      const httpRequest = {
+        body: {
+          email: 'any_email@mail.com',
+          password: 'any_password',
+        }
+      }
+      const httpResponse = await sut.route(httpRequest);
+      expect(httpResponse.statusCode).toBe(500);
+      expect(httpResponse.body).toEqual(new ServerError());
+    }     
+})
 
 
 });

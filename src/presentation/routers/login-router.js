@@ -5,7 +5,7 @@ const HttpResponse = require('../helpers/http-response')
     } = require('../../utils/errors/index')
 
 module.exports = class LoginRouter {
-  constructor(authUseCase, emailValidator){
+  constructor({authUseCase, emailValidator} = {}){
     this.authUseCase = authUseCase
     this.emailValidator = emailValidator
   }

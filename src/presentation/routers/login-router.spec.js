@@ -1,20 +1,15 @@
 const LoginRouter = require('./login-router')
-const {
-  UnauthorizedError,
-  ServerError, 
-  } = require('../errors')
-
-  const {
-    InvalidParamError,
-    MissingParamError, 
-    } = require('../../utils/errors/index')
-
+const { UnauthorizedError, ServerError } = require('../errors')
+const { InvalidParamError, MissingParamError } = require('../../utils/errors')
 
 const makeSut = () => {
   const authUseCaseSpy = makeAuthUseCase();
   const emailValidatorSpy = makeEmailValidator();
   authUseCaseSpy.accessToken = 'valid_token';
-  const sut = new LoginRouter(authUseCaseSpy, emailValidatorSpy);
+  const sut = new LoginRouter({
+   authUseCase: authUseCaseSpy, 
+   emailValidator: emailValidatorSpy
+  });
   return{
     sut,
     authUseCaseSpy,
@@ -150,35 +145,6 @@ describe("LoginRouter", () => {
     expect(httpResponse.body.accessToken).toEqual(authUseCaseSpy.accessToken);
   });
 
-  test("Should return 500 if no authUseCase is provided", async () => {
-    const sut = new LoginRouter();
-    const httpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password',
-      }
-    }
-    const httpResponse = await sut.route(httpRequest);
-    expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new ServerError());
-
-  });
-
-  test("Should return 500 if authUseCase has no auth", async () => {
-    class AuthUseCaseSpy {};
-    const authUseCaseSpy = new AuthUseCaseSpy();
-    const sut = new LoginRouter(authUseCaseSpy);
-    const httpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password',
-      }
-    }
-    const httpResponse = await sut.route(httpRequest);
-    expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new ServerError());
-  });
-
   test("Should return 500 if authUseCase throws", async () => {
     
     const authUseCaseSpy = makeAuthUseCaseWithError();
@@ -209,37 +175,6 @@ describe("LoginRouter", () => {
     expect(httpResponse.body).toEqual(new InvalidParamError('email'));
   });
 
-  test("Should return 500 if no emailValidator is provided", async () => {
-    const authUseCaseSpy = makeAuthUseCase()
-    const sut = new LoginRouter(authUseCaseSpy);
-    const httpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password',
-      }
-    }
-    const httpResponse = await sut.route(httpRequest);
-    expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new ServerError());
-  });
-
-  test("Should return 500 if emailValidator has no isValid method", async () => {
-    const authUseCaseSpy = makeAuthUseCase()
-    const emailValidatorSpy = {};
-    const sut = new LoginRouter(authUseCaseSpy, emailValidatorSpy);
-    const httpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password',
-      }
-    }
-    const httpResponse = await sut.route(httpRequest);
-    expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new ServerError());
-
-
-});
-
 test("Should return 500 if emailValidator throws", async () => {
   const authUseCaseSpy = makeAuthUseCase();
   const emailValidatorSpy = makeEmailValidatorWithError();
@@ -266,5 +201,39 @@ test("Should call emailValidator with correct email", async () => {
   sut.route(httpRequest);
   expect(emailValidatorSpy.email).toBe(httpRequest.body.email);
 });
+
+test('Should throw if invalid dependecies are provided', async () => {
+  const invalid = {}
+  const authUseCase = makeAuthUseCase()
+  const suts = [].concat(
+    new LoginRouter(),
+    new LoginRouter({}),
+    new LoginRouter({
+      authUseCase: invalid,
+    }),
+    new LoginRouter({
+      authUseCase,
+    }),
+    new LoginRouter({
+      authUseCase,
+      emailValidator: invalid
+    }),
+  )
+  for(const sut of suts){
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password',
+      }
+    }
+    const httpResponse = await sut.route(httpRequest);
+    expect(httpResponse.statusCode).toBe(500);
+    expect(httpResponse.body).toEqual(new ServerError());
+  }   
+})
+
+
+
+
 
 });

@@ -36,7 +36,7 @@ module.exports = class LoginRouter {
     
     } catch (error) {
       // em producao é bom ter um log, console.error(error)
-      // console.error({error})
+      // console.log({error})
       return HttpResponse.serverError()
     }
   }

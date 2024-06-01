@@ -150,7 +150,7 @@ describe("LoginRouter", () => {
     emailValidatorSpy.isEmailValid = false;
     const httpRequest = {
       body: {
-        email: 'invalid_email2@mail.com',
+        email: 'invalid_email@mail.com',
         password: 'any_password2'
       }
     };

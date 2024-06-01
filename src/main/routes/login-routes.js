@@ -10,20 +10,20 @@ const env = require('../config/env')
 
 
 module.exports = router => {
-  const tokenGenerator = new TokenGenerator(env.tokenSecret)
-  const encrypter = new Encrypter()
-  const loadUserByEmailRepository = new LoadUserByEmailRepository()
-  const updateAccessTokenRepository = new UpdateAccessTokenRepository()
-  const emailValidator = new EmailValidator()
-  const authUseCase = new AuthUseCase({
-    loadUserByEmailRepository,
-    updateAccessTokenRepository,
-    encrypter,
-    tokenGenerator,
-  })
-  const loginRouter = new LoginRouter({
-    authUseCase, 
-    emailValidator,
-  })
-  router.post('/login', loginRouter)
+  // const tokenGenerator = new TokenGenerator(env.tokenSecret)
+  // const encrypter = new Encrypter()
+  // const loadUserByEmailRepository = new LoadUserByEmailRepository()
+  // const updateAccessTokenRepository = new UpdateAccessTokenRepository()
+  // const emailValidator = new EmailValidator()
+  // const authUseCase = new AuthUseCase({
+  //   loadUserByEmailRepository,
+  //   updateAccessTokenRepository,
+  //   encrypter,
+  //   tokenGenerator,
+  // })
+  // const loginRouter = new LoginRouter({
+  //   authUseCase, 
+  //   emailValidator,
+  // })
+  // router.post('/login', loginRouter)
 }

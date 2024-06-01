@@ -63,7 +63,7 @@ const makeAuthUseCaseWithError = () => {
 
 describe("LoginRouter", () => {
   test("Should return 400 if no email is provided", async () => {
-    const {sut} = makeSut();
+    const { sut } = makeSut();
     const httpRequest = {
       body: {
         password: 'any_password'
@@ -71,7 +71,7 @@ describe("LoginRouter", () => {
     };
     const httpResponse = await sut.route(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingParamError('email'));
+    expect(httpResponse.body).toEqual(new MissingParamError('email').message);
 
   });
 
@@ -85,14 +85,14 @@ describe("LoginRouter", () => {
     const httpResponse = await sut.route(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
     
-    expect(httpResponse.body).toEqual(new MissingParamError('password'));
+    expect(httpResponse.body).toBe(new MissingParamError('password').message);
   });
 
   test("Should return 500 if no httpRequest is provided", async () => {
     const {sut} = makeSut();
     const httpResponse = await sut.route();
     expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new ServerError());
+    expect(httpResponse.body.error).toBe(new ServerError().message);
 
   });
 
@@ -101,7 +101,7 @@ describe("LoginRouter", () => {
     const httpRequest = {}
     const httpResponse = await sut.route(httpRequest);
     expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new ServerError());
+    expect(httpResponse.body.error).toBe(new ServerError().message);
   });
 
   test("Should call authUseCase with correct params", async () => {
@@ -129,7 +129,7 @@ describe("LoginRouter", () => {
     }
     const httpResponse = await sut.route(httpRequest);
     expect(httpResponse.statusCode).toBe(401);
-    expect(httpResponse.body).toEqual(new UnauthorizedError());
+    expect(httpResponse.body.error).toBe(new UnauthorizedError().message);
   });
 
   test("Should return 200 when valid credentials are provided", async () => {
@@ -156,7 +156,7 @@ describe("LoginRouter", () => {
     };
     const httpResponse = await sut.route(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new InvalidParamError('email'));
+    expect(httpResponse.body).toBe(new InvalidParamError('email').message);
   });
 
 test("Should call emailValidator with correct email", async () => {
@@ -197,7 +197,7 @@ test('Should throw if invalid dependecies are provided', async () => {
     }
     const httpResponse = await sut.route(httpRequest);
     expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new ServerError());
+    expect(httpResponse.body.error).toBe(new ServerError().message);
   }   
 })
 
@@ -223,7 +223,7 @@ test('Should throw if dependecy throws', async () => {
       }
       const httpResponse = await sut.route(httpRequest);
       expect(httpResponse.statusCode).toBe(500);
-      expect(httpResponse.body).toEqual(new ServerError());
+      expect(httpResponse.body.error).toBe(new ServerError().message);
     }     
 })
 
